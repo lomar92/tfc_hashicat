@@ -24,20 +24,20 @@ resource "azurerm_virtual_network" "vnet" {
   name                = "${var.prefix}-vnet"
   location            = azurerm_resource_group.myresourcegroup.location
   address_space       = [var.address_space]
-  resource_group_name = azurerm_resource_group.myresourcegroup.name
+  resource_group_name = azurerm_resource_group.myresourcegroup.demoAL
 }
 
 resource "azurerm_subnet" "subnet" {
   name                 = "${var.prefix}-subnet"
   virtual_network_name = azurerm_virtual_network.vnet.name
-  resource_group_name  = azurerm_resource_group.myresourcegroup.name
+  resource_group_name  = azurerm_resource_group.myresourcegroup.demoAL
   address_prefixes     = [var.subnet_prefix]
 }
 
 resource "azurerm_network_security_group" "catapp-sg" {
   name                = "${var.prefix}-sg"
   location            = var.location
-  resource_group_name = azurerm_resource_group.myresourcegroup.name
+  resource_group_name = azurerm_resource_group.myresourcegroup.demoAL
 
   security_rule {
     name                       = "HTTP"
@@ -79,7 +79,7 @@ resource "azurerm_network_security_group" "catapp-sg" {
 resource "azurerm_network_interface" "catapp-nic" {
   name                      = "${var.prefix}-catapp-nic"
   location                  = var.location
-  resource_group_name       = azurerm_resource_group.myresourcegroup.name
+  resource_group_name       = azurerm_resource_group.myresourcegroup.demoAL
 
   ip_configuration {
     name                          = "${var.prefix}ipconfig"
@@ -97,7 +97,7 @@ resource "azurerm_network_interface_security_group_association" "catapp-nic-sg-a
 resource "azurerm_public_ip" "catapp-pip" {
   name                = "${var.prefix}-ip"
   location            = var.location
-  resource_group_name = azurerm_resource_group.myresourcegroup.name
+  resource_group_name = azurerm_resource_group.myresourcegroup.demoAL
   allocation_method   = "Dynamic"
   domain_name_label   = "${var.prefix}-meow"
 }
@@ -105,7 +105,7 @@ resource "azurerm_public_ip" "catapp-pip" {
 resource "azurerm_virtual_machine" "catapp" {
   name                = "${var.prefix}-meow"
   location            = var.location
-  resource_group_name = azurerm_resource_group.myresourcegroup.name
+  resource_group_name = azurerm_resource_group.myresourcegroup.demoAL
   vm_size             = var.vm_size
 
   network_interface_ids         = [azurerm_network_interface.catapp-nic.id]
